@@ -1,0 +1,20 @@
+Data Formatting:
+
+Data Formatting Setup: You're setting up empty lists (input_sequences, target_sequences, emotion_labels, and dialog_act_labels) to store processed data.
+
+Loop Through Dialogues: You're looping through each dialogue in your dataset along with corresponding emotion and dialog act information. The zip function is used to iterate through these three lists together.
+
+Splitting User Utterances: Each dialogue is split into individual user utterances using the __eou__ marker that separates utterances. The [:-1] indexing removes the last element which is typically empty due to the marker being at the end.
+
+Handling Emotions: The emotion information is split using spaces, and the first element (representing the emotion label) is extracted and converted to an integer. This label represents the emotion conveyed in the dialogue.
+
+Handling Dialog Acts: Similarly, the dialog act information is split using spaces, and the first element (representing the dialog act label) is extracted and converted to an integer. This label represents the type of dialog act performed in the dialogue.
+
+Iterating Through Utterances: You then loop through the user utterances in each dialogue.
+
+Creating Input and Target Sequences: For each user utterance, you're creating an input sequence with the prefix "User:" and the user's utterance, and a target sequence with the prefix "Chatbot:" and the next user's utterance.
+
+Appending to Lists: These input and target sequences are appended to the respective lists (input_sequences and target_sequences), and the extracted emotion and dialog act labels are appended to their respective lists (emotion_labels and dialog_act_labels).
+
+By the end of this code, you've processed your raw dialogue data into structured input and target sequences, along with associated emotion and dialog act labels. These processed sequences and labels will be used for building and training your chatbot model.
+
