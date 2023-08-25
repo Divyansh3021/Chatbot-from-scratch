@@ -18,3 +18,42 @@ Appending to Lists: These input and target sequences are appended to the respect
 
 By the end of this code, you've processed your raw dialogue data into structured input and target sequences, along with associated emotion and dialog act labels. These processed sequences and labels will be used for building and training your chatbot model.
 
+
+Positional Encoding:
+
+This function generates positional encodings, which are added to the input embeddings in the transformer model to provide information about the order of tokens in the sequence.
+
+positions = tf.range(max_seq_len, dtype=tf.float32)[:, tf.newaxis]: This line creates a tensor of sequential positions from 0 to max_seq_len - 1. The tf.newaxis is used to add a new axis, so the shape becomes (max_seq_len, 1).
+
+angles = 1 / tf.pow(10000, (2 * (tf.range(d_model, dtype=tf.float32) // 2)) / d_model): This line calculates a series of angles based on the formula 1 / 10000^(2 * i / d_model) where i is the position and d_model is the dimension of the model. This step is used to create a set of sinusoidal patterns with varying wavelengths.
+
+angle_rads = positions * angles: Here, the calculated angles are multiplied with the positions to get the angle in radians for each position.
+
+sines = tf.math.sin(angle_rads[:, 0::2]): This extracts the sine values from the angle tensors for positions at even indices.
+
+cosines = tf.math.cos(angle_rads[:, 1::2]): This extracts the cosine values from the angle tensors for positions at odd indices.
+
+pos_encoding = tf.concat([sines, cosines], axis=-1): This concatenates the sine and cosine tensors along the last axis to form the final positional encodings for all positions.
+
+pos_encoding = pos_encoding[tf.newaxis, ...]: This adds a new axis at the beginning to create a batch dimension for the positional encodings.
+
+return tf.cast(pos_encoding, dtype=tf.float32): The final positional encodings are returned after casting them to the desired data type (float32).
+
+This function generates a matrix of positional encodings that will be added to the input embeddings to provide information about the position of each token in the sequence. The sinusoidal patterns capture different frequencies of positional information.
+
+
+MultiHead Attention:
+
+This function defines a multi-head attention mechanism, which is a critical component of the transformer architecture. Multi-head attention enables the model to focus on different parts of the input sequence simultaneously and learn complex relationships.
+
+d_model: This parameter represents the dimension of the model, which is essentially the size of the input and output embeddings.
+
+num_heads: This parameter specifies the number of attention heads. Each attention head learns different aspects of the relationships between tokens.
+
+The function returns an instance of the MultiHeadAttention layer configured with the specified number of heads and key dimension. The key dimension is calculated as d_model // num_heads, which ensures that the dimension is divisible evenly among the heads.
+
+The MultiHeadAttention layer takes care of the intricate calculations involved in performing multi-head attention on the input embeddings.
+
+This function makes it easy to create a multi-head attention layer with the specified parameters, and you can use this layer in your transformer encoder layers.
+
+
