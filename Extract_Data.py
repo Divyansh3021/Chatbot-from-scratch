@@ -32,7 +32,7 @@ with open(output_train_file, "w", encoding='utf-8') as outfile:
         file_path = os.path.join(folder_path, filename)
         with lzma.open(file_path, "rt", encoding='utf-8') as infile:
             text = infile.read()
-            outfile.write(text)
+            # outfile.write(text)
             characters = set(text)
             vocab.update(characters)
 
@@ -42,7 +42,7 @@ with open(output_val_file, "w", encoding='utf-8') as outfile:
         file_path = os.path.join(folder_path, filename)
         with lzma.open(file_path, "rt", encoding='utf-8') as infile:
             text = infile.read()
-            outfile.write(text)
+            # outfile.write(text)
             characters = set(text)
             vocab.update(characters)
 
